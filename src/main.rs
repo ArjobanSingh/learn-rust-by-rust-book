@@ -4,7 +4,39 @@ const TEMP_F: &str = "Fahrenheit";
 const TEMP_C: &str = "Celsius";
 
 fn main() {
-    convert_temperature();
+    gen_n_th_fib();
+    // convert_temperature();
+}
+
+fn gen_n_th_fib() {
+    println!("Please type a positive number: ");
+    let mut num = String::new();
+
+    io::stdin()
+        .read_line(&mut num)
+        .expect("Failed to read a line");
+
+    let num: u128 = num
+        .trim()
+        .parse()
+        .expect("Please type a valid positive number");
+    
+    let ans = if num == 0 {
+        0
+    } else if num == 1 {
+        1
+    } else {
+        let mut old_prev: u128 = 0;
+        let mut prev: u128 = 1;
+        for _n in 2..=num {
+            let sum = old_prev + prev;
+            old_prev = prev;
+            prev = sum;
+        }
+        prev
+    };
+
+    println!("The fibonacci no. at position {num} is: {ans}");
 }
 
 fn convert_temperature() {
