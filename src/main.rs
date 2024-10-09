@@ -3,11 +3,79 @@ use std::io;
 const TEMP_F: &str = "Fahrenheit";
 const TEMP_C: &str = "Celsius";
 
+const LINES: [&str; 12] = [
+    "A partridge in a pear tree.",
+    "Two turtle doves,",
+    "Three French hens,",
+    "Four calling birds,",
+    "Five golden rings,",
+    "Six geese a-laying,",
+    "Seven swans a-swimming,",
+    "Eight maids a-milking",
+    "Nine ladies dancing,",
+    "Ten lords a-leaping,",
+    "Eleven pipers piping,",
+    "Twelve drummers drumming,",
+];
+
+const DAYS: [&str; 12] = [
+    "first",
+    "second",
+    "third",
+    "fourth",
+    "fifth",
+    "sixth",
+    "seventh",
+    "eighth",
+    "ninth",
+    "tenth",
+    "eleventh",
+    "twelfth",
+];
+
 fn main() {
-    gen_n_th_fib();
-    // convert_temperature();
+    println!("Enter 1 to listen to a poem");
+    println!("Enter 2 to gen the nth fib number");
+    println!("Enter 3 to convert temperature b/w Farh and Celsius");
+
+    let mut option = String::new();
+    io::stdin()
+        .read_line(&mut option)
+        .expect("Unable to read a line");
+
+    let option: u8 = option
+        .trim()
+        .parse()
+        .expect("Please enter a valid number");
+
+    if option == 1 {
+        print_poem();
+    } else if option == 2 {
+        gen_n_th_fib();
+    } else if option == 3 {
+        convert_temperature();
+    } else {
+        print!("Please enter a valid number b/w 1-3");
+    }
 }
 
+fn print_poem() {
+    for para_num in 0..12 {
+        println!("On the {} day of Christmas,", DAYS[para_num]);
+        println!("my true love gave to me");
+        for line_num in (0..=para_num).rev() {
+            // Not a first paragrah, and the last(0 is last due to rev()) line of the current paragraph
+            let is_last_line_of_not_first_para = para_num > 0 && line_num == 0;
+            if is_last_line_of_not_first_para {
+                print!("And ");
+            }
+
+            let line = if is_last_line_of_not_first_para { LINES[line_num].to_lowercase() } else { LINES[line_num].to_string() };
+            println!("{line}");
+        }
+        println!("");
+    }
+}
 fn gen_n_th_fib() {
     println!("Please type a positive number: ");
     let mut num = String::new();
